@@ -735,7 +735,7 @@ class NeuralHawkes(nn.Module):
         accepted_logPs = torch.zeros(size=[particle_num], dtype=torch.float32,
                                      device=self.device)
 
-        finished = torch.zeros(size=[particle_num], dtype=torch.uint8,
+        finished = torch.zeros(size=[particle_num], dtype=torch.bool,
                                device=self.device)
         E = torch.empty(size=[particle_num, num], dtype=torch.float32, device=self.device)
         U = torch.empty(size=[particle_num, num], dtype=torch.float32, device=self.device)
@@ -915,7 +915,7 @@ class NeuralHawkes(nn.Module):
         """
         index_not_covered = torch.ones(
             size=[particle_num, num_points_this_interval],
-            device=self.device, dtype=torch.uint8)
+            device=self.device, dtype=torch.bool)
         """
         init weight for this segment
         the log weight should be
@@ -1273,7 +1273,7 @@ class NeuralHawkes(nn.Module):
                                       device=self.device)
         dtimes_to_update = torch.zeros(size=[particle_num], dtype=torch.float32,
                                        device=self.device)
-        updated_with_this = torch.zeros(size=[particle_num], dtype=torch.uint8,
+        updated_with_this = torch.zeros(size=[particle_num], dtype=torch.bool,
                                         device=self.device)
 
         time_so_far = torch.zeros(size=[particle_num], dtype=torch.float32,
