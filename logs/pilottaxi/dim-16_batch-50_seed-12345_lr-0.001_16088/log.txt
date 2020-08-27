@@ -1,0 +1,24 @@
+Training Log
+Hyperparameters
+Dataset : pilottaxi
+RootPath : ../..
+DimLSTM : 16
+Multiplier : 1
+SizeBatch : 50
+TrackPeriod : 5000
+MaxEpoch : 1
+LearnRate : 0.001
+UseGPU : True
+Seed : 12345
+PathData : C:\Users\am21907\Documents\Projects\Hackathon Projects\RwD\s\neural-hawkes-particle-smoothing\data\pilottaxi
+Version : 1.3.0
+ID : 16088
+TIME : 2020-08-23T22:24:58.468401
+PathLog : C:\Users\am21907\Documents\Projects\Hackathon Projects\RwD\s\neural-hawkes-particle-smoothing\logs\pilottaxi\dim-16_batch-50_seed-12345_lr-0.001_16088\log.txt
+PathSave : C:\Users\am21907\Documents\Projects\Hackathon Projects\RwD\s\neural-hawkes-particle-smoothing\logs\pilottaxi\dim-16_batch-50_seed-12345_lr-0.001_16088\saved_model
+Model : nhpf
+Checkpoints:
+Episode 4999 (4999-th seq of 0-th epoch), loglik is -0.8579
+Current best loglik is -0.8579 (updated at episode 4999), best updated at this episode
+time to train 5000 episodes is 623.13 and time for dev is 60.02
+training finished
