@@ -78,7 +78,7 @@ def remove_bases_for_test(all_particles, golds, bases):
 
 if __name__ == '__main__':
     import pickle
-    dataset = pickle.load(open('data/pilottaxi/train.pkl', 'rb'))
+    dataset = pickle.load(open('../../data/pilottaxi/train.pkl', 'rb'))
     seq = dataset['seqs'][0]
     # base = dataset['seqs_obs'][0]
     base = list()
