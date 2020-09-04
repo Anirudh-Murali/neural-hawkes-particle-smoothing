@@ -38,7 +38,6 @@ def sampleForIntegral(input, sampling=1, device=None):
     event, time, post, duration, lens, \
     event_obs, dtime_obs, dtime_backward, index_of_hidden_backward, \
     mask_obs, mask_unobs, log_censor_probs = input
-
     num_particles, T_plus_2 = event.size()
     _, T_obs_plus_2 = event_obs.size()
     assert lens.max() + 2 == T_plus_2, "max len should match"
@@ -47,7 +46,10 @@ def sampleForIntegral(input, sampling=1, device=None):
 
     sampled_times = torch.empty(size=[max_sampling], dtype=torch.float32,
                                 device=device)
-    sampled_times.uniform_(0.0, float(duration[0]))
+    try:
+        sampled_times.uniform_(0.0, float(duration[0]))
+    except RuntimeError:
+        raise RuntimeError
     sampled_times = sampled_times.sort()[0].unsqueeze(0).expand(num_particles, max_sampling)
 
     dtime_sampling = torch.zeros(size=[num_particles, max_sampling],
@@ -362,8 +364,12 @@ class DataProcessorBase(object):
 
                 while idx_in_complete < len(seq) and not check_type_and_time(idx_in_complete):
                     idx_in_complete += 1
-
-                assert idx_in_complete < len(seq), "Current obs token not in complete?"
+                ### this section is required only if seqs_obs and seqs can have the same lenght in some cases
+                if idx_in_complete == len(seq):
+                    idx_in_complete -= 1
+                ####
+                    
+                assert idx_in_complete < len(seq), (idx_in_complete,len(seq),"Current obs token not in complete?")#
 
                 masks[0, idx_in_complete] = 1.0
 
@@ -459,8 +465,11 @@ class DataProcessorBase(object):
         """
         batch_of_seqs = []
         for seq in input:
-            batch_of_seqs.append(self.sampleForIntegral(
-                seq, sampling=self.sampling, device=self.device) )
+            try:
+                batch_of_seqs.append(self.sampleForIntegral(
+                    seq, sampling=self.sampling, device=self.device) )
+            except RuntimeError:
+                raise RuntimeError
         return self.processBatchParticles(batch_of_seqs)
 
 

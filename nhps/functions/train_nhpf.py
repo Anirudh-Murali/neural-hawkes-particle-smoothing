@@ -17,6 +17,7 @@ from itertools import chain
 
 import torch
 import torch.optim as optim
+import pandas as pd
 
 from nhps.models import nhp
 from nhps.io import processors
@@ -107,12 +108,15 @@ def run_complete(args):
 
         #time_sample_0 = time.time()
         input.append( proc.processSeq( one_seq, n=1 ) )
+        # print(input)
         #time_sample += (time.time() - time_sample_0)
 
         if len(input) >= args['SizeBatch']:
-
-            batchdata_seqs = proc.processBatchSeqsWithParticles( input )
-
+            try:
+                batchdata_seqs = proc.processBatchSeqsWithParticles( input )
+            except RuntimeError:
+                print(pd.DataFrame(one_seq)['patient_id'].astype(str).unique())
+                continue
             agent.train()
             time_train_only_0 = time.time()
 
